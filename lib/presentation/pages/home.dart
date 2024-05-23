@@ -31,19 +31,19 @@ class _HomePageState extends State<HomePage>
     super.initState();
   }
 
-  getAllUserDetails() async {
-    var users = await _userService.readAllData();
-    _userList = <IncomeExpensesModel>[];
-    users.forEach((user) {
-      setState(() {
-        var userModel = IncomeExpensesModel();
-        userModel.id = user['id'];
-        userModel.desc = user['desc'];
-        userModel.price = user['price'];
-        _userList.add(userModel);
-      });
-    });
-  }
+  // getAllUserDetails() async {
+  //   var users = await _userService.readAllData();
+  //   _userList = <IncomeExpensesModel>[];
+  //   users.forEach((user) {
+  //     setState(() {
+  //       var userModel = IncomeExpensesModel();
+  //       userModel.id = user['id'];
+  //       userModel.desc = user['desc'];
+  //       userModel.price = user['price'];
+  //       _userList.add(userModel);
+  //     });
+  //   });
+  // }
 
   Animation<double>? _animation;
   AnimationController? _animationController;
@@ -68,8 +68,8 @@ class _HomePageState extends State<HomePage>
         actions: [
           IconButton(
               onPressed: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => const HistoryPage()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => const HistoryPage()));
               },
               icon: const Icon(Icons.history))
         ],

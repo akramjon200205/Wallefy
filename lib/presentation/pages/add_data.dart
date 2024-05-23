@@ -21,7 +21,7 @@ class _AddDataState extends State<AddData> {
   bool _validateContact = false;
   bool _validateType = false;
   final _userService = IncomeService();
-  String typeExcenses = 'KAtegoriyani tanlang';
+  String typeExcenses = 'Kategoriyani tanlang';
 
   @override
   Widget build(BuildContext context) {
