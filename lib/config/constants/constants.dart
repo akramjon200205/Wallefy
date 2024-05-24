@@ -3,19 +3,22 @@ import 'package:wallefy/presentation/pages/home.dart';
 import 'package:wallefy/presentation/pages/settings.dart';
 
 List<String> menuNames = ['Uy', 'Tarix'];
-List<Icon> menuIcons = [const Icon(Icons.home_outlined), const Icon(Icons.history_outlined)];
+List<Icon> menuIcons = [
+  const Icon(Icons.home_outlined),
+  const Icon(Icons.history_outlined)
+];
 List floatListNames = ["Yangi daromad", "Yangi harajat"];
-List floatListIcons = [Icons.add_circle_outline_sharp, Icons.remove_circle_outline_outlined];
-showSuccessSnackBar(String message, BuildContext context) {
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      content: Text(message),
-    ),
-  );
-}
+List floatListIcons = [
+  Icons.add_circle_outline_sharp,
+  Icons.remove_circle_outline_outlined
+];
 
 TextStyle kTextstyle(
-    {Color? color, double? size = 32, FontWeight fontWeight = FontWeight.w400, double? height, double? letterSpasing}) {
+    {Color? color,
+    double? size = 32,
+    FontWeight fontWeight = FontWeight.w400,
+    double? height,
+    double? letterSpasing}) {
   return TextStyle(
       color: color ?? Colors.white,
       fontSize: size,
@@ -134,3 +137,15 @@ List<String> languages = [
   'Русский',
   'O\'zbekcha',
 ];
+
+class Constants {
+  static showSuccessSnackBar(String message, BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Builder(builder: (context) {
+          return Text(message);
+        }),
+      ),
+    );
+  }
+}

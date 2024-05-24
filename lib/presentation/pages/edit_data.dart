@@ -53,7 +53,9 @@ class _EditDataState extends State<EditData> {
                     border: const OutlineInputBorder(),
                     hintText: 'Yangi Eslatma kitirish',
                     labelText: 'Eslatma',
-                    errorText: _validateName ? "'Eslatma' maydoni bo'sh bo'lmasligi kerak" : null,
+                    errorText: _validateName
+                        ? "'Eslatma' maydoni bo'sh bo'lmasligi kerak"
+                        : null,
                   )),
               const SizedBox(
                 height: 20.0,
@@ -64,7 +66,9 @@ class _EditDataState extends State<EditData> {
                     border: const OutlineInputBorder(),
                     hintText: 'Yangi Summa kiritish',
                     labelText: 'Summa',
-                    errorText: _validateContact ? "Summa maydoni bo'sh bo'lmasligi kerak" : null,
+                    errorText: _validateContact
+                        ? "Summa maydoni bo'sh bo'lmasligi kerak"
+                        : null,
                   )),
               const SizedBox(
                 height: 20.0,
@@ -90,7 +94,8 @@ class _EditDataState extends State<EditData> {
                       padding: const EdgeInsets.only(left: 14),
                       child: Text(
                         'Siz kategoriyalardan birini tanlashingiz kerak',
-                        style: AppTextStyles.body14w5.copyWith(color: AppColors.red),
+                        style: AppTextStyles.body14w5
+                            .copyWith(color: AppColors.red),
                       ),
                     )
                   : Text(''),
@@ -106,11 +111,18 @@ class _EditDataState extends State<EditData> {
                           textStyle: const TextStyle(fontSize: 15)),
                       onPressed: () async {
                         setState(() {
-                          _descController.text.isEmpty ? _validateName = true : _validateName = false;
-                          _priceController.text.isEmpty ? _validateContact = true : _validateContact = false;
-                          typeExcenses == 'Kategoriyani kiriting' ? _validateType = true : _validateType = false;
+                          _descController.text.isEmpty
+                              ? _validateName = true
+                              : _validateName = false;
+                          _priceController.text.isEmpty
+                              ? _validateContact = true
+                              : _validateContact = false;
+                          typeExcenses == 'Kategoriyani kiriting'
+                              ? _validateType = true
+                              : _validateType = false;
                         });
-                        if (_validateName == false && _validateContact == false) {
+                        if (_validateName == false &&
+                            _validateContact == false) {
                           // print("Good Data Can Save");
                           var user = IncomeExpensesModel(
                             id: widget.user.id,
@@ -120,9 +132,12 @@ class _EditDataState extends State<EditData> {
                             datatime: widget.user.datatime,
                             price: double.parse(_priceController.text),
                           );
-                          var result = await _userService.updateData(user);
+                          await _userService.updateData(user);
                           // ignore: use_build_context_synchronously
-                          Navigator.pop(context, result);
+                          Constants.showSuccessSnackBar(
+                              'Данные успешно добавлены', context);
+
+                          Navigator.pop(context);
                         }
                       },
                       child: const Text('Yangilash')),

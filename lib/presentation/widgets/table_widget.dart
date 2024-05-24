@@ -1,83 +1,31 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:wallefy/config/constants/app_colors.dart';
 import 'package:wallefy/config/constants/app_text_styles.dart';
 import 'package:wallefy/data/models/income_expenses_model.dart';
-import 'package:wallefy/data/services/incomeService.dart';
 
-// ignore: must_be_immutable
-class TableWidget extends StatefulWidget {
+class TableWidget extends StatelessWidget {
   const TableWidget({
     super.key,
+    required this.models,
   });
 
-  @override
-  State<TableWidget> createState() => _TableWidgetState();
-}
-
-class _TableWidgetState extends State<TableWidget> {
-  List<List<IncomeExpensesModel>> filterList = [];
-  late List<IncomeExpensesModel> _dataList = <IncomeExpensesModel>[];
-  final _userService = IncomeService();
-  double sum = 0;
-  double rasxod = 0;
-  double doxod = 0;
-
-  getAllUserDetails() async {
-    List<List<IncomeExpensesModel>> filteredDataList = [];
-    var users = await _userService.readAllData();
-    _dataList = <IncomeExpensesModel>[];
-    users.forEach((user) {
-      setState(() {
-        var userModel = IncomeExpensesModel();
-        userModel.id = user['id'];
-        userModel.desc = user['desc'];
-        userModel.price = user['price'];
-        _dataList.add(userModel);
-      });
-    });
-
-    List<IncomeExpensesModel> newData = [..._dataList];
-
-    for (int i = 0; i < newData.length; i++) {
-      var a = newData[i].datatime;
-      List<IncomeExpensesModel> sets = [];
-      for (int j = 0; j < newData.length; j++) {
-        if (a == _dataList[j].datatime) {
-          sets.add(newData[j]);
-          newData[j] = IncomeExpensesModel(datatime: '');
-        }
-      }
-      if (sets.isNotEmpty) {
-        var reversedList = sets.reversed.toList();
-        filteredDataList.add(reversedList);
-      }
-    }
-    filterList = filteredDataList.reversed.toList();
-
-    for (int i = 0; i < filterList.length; i++) {
-      for (int j = 0; j < filterList[i].length; j++) {
-        if (filterList[i][j].isincome == 1) {
-          doxod += filterList[i][j].price!;
-          log("doxod: $doxod");
-        } else {
-          rasxod += filterList[i][j].price!;
-          log("rasxod: $rasxod");
-        }
-      }
-    }
-    sum = doxod - rasxod;
-  }
-
-  @override
-  void initState() {
-    getAllUserDetails();
-    super.initState();
-  }
+  final List<IncomeExpensesModel> models;
 
   @override
   Widget build(BuildContext context) {
+    double sum = 0;
+    double rasxod = 0;
+    double doxod = 0;
+
+    for (int i = 0; i < models.length; i++) {
+      if (models[i].isincome == 1) {
+        doxod += models[i].price!;
+      } else {
+        rasxod += models[i].price!;
+      }
+    }
+    sum = doxod - rasxod;
     return SizedBox(
       height: 230,
       child: Stack(
