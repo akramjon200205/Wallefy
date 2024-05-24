@@ -21,13 +21,7 @@ class _HistoryPageState extends State<HistoryPage> {
     _dataList = <IncomeExpensesModel>[];
     allData.forEach((data) {
       setState(() {
-        var dataModel = IncomeExpensesModel();
-        dataModel.type = data['type'];
-        dataModel.id = data['id'];
-        dataModel.desc = data['desc'];
-        dataModel.price = data['price'];
-        dataModel.datatime = data['datatime'];
-        dataModel.isincome = data['isincome'];
+        final dataModel = IncomeExpensesModel.fromJson(data);
         _dataList.add(dataModel);
       });
     });

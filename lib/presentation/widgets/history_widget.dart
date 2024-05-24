@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:wallefy/config/constants/app_colors.dart';
 import 'package:wallefy/config/constants/app_text_styles.dart';
+import 'package:wallefy/config/constants/constants.dart';
 import 'package:wallefy/data/models/income_expenses_model.dart';
 import 'package:wallefy/presentation/routes/routes.dart';
 import 'package:wallefy/presentation/widgets/sold_products.dart';
@@ -83,7 +84,10 @@ class _HistoryWidgetState extends State<HistoryWidget> {
                             }).then((data) {
                           if (data != null) {
                             setState(() {});
-                            _showSuccessSnackBar('User Detail Updated Success');
+                            Constants.showSuccessSnackBar(
+                              'User Detail Updated Success',
+                              context,
+                            );
                           }
                         });
                       },
@@ -130,13 +134,5 @@ class _HistoryWidgetState extends State<HistoryWidget> {
     return (myString.length <= cutoff)
         ? myString
         : '${myString.substring(0, cutoff)}...';
-  }
-
-  _showSuccessSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-      ),
-    );
   }
 }

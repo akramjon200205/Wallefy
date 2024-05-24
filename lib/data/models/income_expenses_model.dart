@@ -6,15 +6,16 @@ class IncomeExpensesModel {
   int? isincome;
   double? price;
 
-  IncomeExpensesModel(
-      {this.id,
-      this.type,
-      this.desc,
-      this.datatime,
-      this.isincome,
-      this.price});
+  IncomeExpensesModel({
+    this.id,
+    this.type,
+    this.desc,
+    this.datatime,
+    this.isincome,
+    this.price,
+  });
 
-  IncomeExpensesModel.fromMap(Map<String, dynamic> json) {
+  IncomeExpensesModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     type = json['type'];
     desc = json['desc'];

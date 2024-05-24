@@ -1,4 +1,3 @@
-
 import 'package:floating_action_bubble/floating_action_bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:wallefy/config/constants/app_colors.dart';
@@ -6,28 +5,28 @@ import 'package:wallefy/config/constants/app_text_styles.dart';
 import 'package:wallefy/config/constants/constants.dart';
 import 'package:wallefy/data/models/income_expenses_model.dart';
 import 'package:wallefy/data/services/incomeService.dart';
-import 'package:wallefy/presentation/routes/routes.dart';
 
 class FloatActionButton extends StatefulWidget {
   const FloatActionButton({
-    Key? key,
+    super.key,
     required AnimationController? animationController,
     required Animation<double>? animation,
+    required this.functions,
   })  : _animationController = animationController,
-        _animation = animation,
-        super(key: key);
+        _animation = animation;
   final AnimationController? _animationController;
   final Animation<double>? _animation;
+
+  final List<Function> functions;
 
   @override
   State<FloatActionButton> createState() => _FloatActionButtonState();
 }
 
 class _FloatActionButtonState extends State<FloatActionButton> {
-
   late List<IncomeExpensesModel> _userList = <IncomeExpensesModel>[];
   final _userService = IncomeService();
-  
+
   getAllUserDetails() async {
     var users = await _userService.readAllData();
     _userList = <IncomeExpensesModel>[];
@@ -54,28 +53,7 @@ class _FloatActionButtonState extends State<FloatActionButton> {
           icon: floatListIcons[index],
           titleStyle: AppTextStyles.body16w5.copyWith(color: AppColors.white),
           onPress: () {
-            switch (index) {
-              case 0:
-                Navigator.pushNamed(context, Routes.addDataPage,
-                    arguments: {'isTrue': true});
-                //     .then((data) {
-                //   if (data != null) {
-                //     getAllUserDetails();
-                //     showSuccessSnackBar('Данные успешно добавлены', context);
-                //   }
-                // });
-                break;
-              case 1:
-                Navigator.pushNamed(context, Routes.addDataPage,
-                    arguments: {'isTrue': false});
-                //     .then((data) {
-                //   if (data != null) {
-                //     getAllUserDetails();
-                //     showSuccessSnackBar('Данные успешно добавлены', context);
-                //   }
-                // });
-                break;
-            }
+            widget.functions[index]();
             widget._animationController!.reverse();
           },
         ),

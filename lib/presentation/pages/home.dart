@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import 'package:wallefy/config/constants/constants.dart';
 import 'package:wallefy/data/models/income_expenses_model.dart';
 import 'package:wallefy/data/services/incomeService.dart';
 import 'package:wallefy/presentation/components/float_action_button.dart';
 import 'package:wallefy/presentation/pages/history.dart';
+import 'package:wallefy/presentation/routes/routes.dart';
 import 'package:wallefy/presentation/widgets/table_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,10 +17,11 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
-  late List<IncomeExpensesModel> _userList = <IncomeExpensesModel>[];
+  List<IncomeExpensesModel> _userList = [];
   final _userService = IncomeService();
   @override
   void initState() {
+    getAllUserDetails();
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 260),
@@ -26,22 +29,15 @@ class _HomePageState extends State<HomePage>
 
     final curvedAnimation =
         CurvedAnimation(curve: Curves.easeInOut, parent: _animationController!);
-    _animation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);  
+    _animation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
     super.initState();
   }
 
   getAllUserDetails() async {
     var users = await _userService.readAllData();
-    _userList = <IncomeExpensesModel>[];
-    users.forEach((user) {
-      setState(() {
-        var userModel = IncomeExpensesModel();
-        userModel.id = user['id'];
-        userModel.desc = user['desc'];
-        userModel.price = user['price'];
-        _userList.add(userModel);
-      });
-    });
+    _userList =
+        (users as List).map((e) => IncomeExpensesModel.fromJson(e)).toList();
+    setState(() {});
   }
 
   Animation<double>? _animation;
@@ -68,11 +64,14 @@ class _HomePageState extends State<HomePage>
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (_) => const HistoryPage()));
-              // if (result != null && result == true) {
-              //   getAllUserDetails(); // Qaytib kelgandan keyin ma'lumotlarni yangilash
-              // }
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const HistoryPage(),
+                ),
+              ).then(
+                (value) => getAllUserDetails(),
+              );
             },
             icon: const Icon(
               Icons.history,
@@ -83,13 +82,33 @@ class _HomePageState extends State<HomePage>
       body: ListView(
         children: [
           TableWidget(
-              // sortedDataList: _userList,
-              ),
+            models: _userList,
+          ),
         ],
       ),
       floatingActionButton: FloatActionButton(
         animationController: _animationController,
         animation: _animation,
+        functions: [
+          () {
+            Navigator.pushNamed(
+              context,
+              Routes.addDataPage,
+              arguments: {'isTrue': true},
+            ).then((data) {
+              getAllUserDetails();
+            });
+          },
+          () {
+            Navigator.pushNamed(
+              context,
+              Routes.addDataPage,
+              arguments: {'isTrue': false},
+            ).then((data) {
+              getAllUserDetails();
+            });
+          }
+        ],
       ),
     );
   }

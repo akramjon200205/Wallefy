@@ -125,15 +125,19 @@ class _AddDataState extends State<AddData> {
                           var now = DateTime.now();
                           final DateFormat formatter = DateFormat('yyyy-MM-dd');
                           final String date = formatter.format(now);
-                          var result = await _userService.saveData(
-                              IncomeExpensesModel(
-                                  type: typeExcenses,
-                                  desc: _descController.text,
-                                  price: double.parse(_priceController.text),
-                                  datatime: monthReturned(date),
-                                  isincome: widget.isTrue == true ? 1 : 0));
+                          await _userService.saveData(
+                            IncomeExpensesModel(
+                                type: typeExcenses,
+                                desc: _descController.text,
+                                price: double.parse(_priceController.text),
+                                datatime: monthReturned(date),
+                                isincome: widget.isTrue == true ? 1 : 0),
+                          );
                           // ignore: use_build_context_synchronously
-                          Navigator.pop(context, result);
+                          Constants.showSuccessSnackBar(
+                              'Данные успешно добавлены', context);
+
+                          Navigator.pop(context);
                         }
                       },
                       child: const Text("Qo'shish")),
