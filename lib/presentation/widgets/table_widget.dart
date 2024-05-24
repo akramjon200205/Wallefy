@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:wallefy/config/constants/app_colors.dart';
 import 'package:wallefy/config/constants/app_text_styles.dart';
 import 'package:wallefy/data/models/income_expenses_model.dart';
 import 'package:wallefy/data/services/incomeService.dart';
 
+// ignore: must_be_immutable
 class TableWidget extends StatefulWidget {
   const TableWidget({
     super.key,
@@ -23,34 +26,31 @@ class _TableWidgetState extends State<TableWidget> {
 
   getAllUserDetails() async {
     List<List<IncomeExpensesModel>> filteredDataList = [];
-    List allData = await _userService.readAllData();
+    var users = await _userService.readAllData();
     _dataList = <IncomeExpensesModel>[];
-    for (var data in allData) {
+    users.forEach((user) {
       setState(() {
-        var dataModel = IncomeExpensesModel();
-        dataModel.type = data['type'];
-        dataModel.id = data['id'];
-        dataModel.desc = data['desc'];
-        dataModel.price = data['price'];
-        dataModel.datatime = data['datatime'];
-        dataModel.isincome = data['isincome'];
-        _dataList.add(dataModel);
+        var userModel = IncomeExpensesModel();
+        userModel.id = user['id'];
+        userModel.desc = user['desc'];
+        userModel.price = user['price'];
+        _dataList.add(userModel);
       });
-    }
+    });
 
     List<IncomeExpensesModel> newData = [..._dataList];
 
     for (int i = 0; i < newData.length; i++) {
       var a = newData[i].datatime;
-      List<IncomeExpensesModel> set = [];
+      List<IncomeExpensesModel> sets = [];
       for (int j = 0; j < newData.length; j++) {
         if (a == _dataList[j].datatime) {
-          set.add(newData[j]);
+          sets.add(newData[j]);
           newData[j] = IncomeExpensesModel(datatime: '');
         }
       }
-      if (set.isNotEmpty) {
-        var reversedList = set.reversed.toList();
+      if (sets.isNotEmpty) {
+        var reversedList = sets.reversed.toList();
         filteredDataList.add(reversedList);
       }
     }
@@ -60,8 +60,10 @@ class _TableWidgetState extends State<TableWidget> {
       for (int j = 0; j < filterList[i].length; j++) {
         if (filterList[i][j].isincome == 1) {
           doxod += filterList[i][j].price!;
+          log("doxod: $doxod");
         } else {
           rasxod += filterList[i][j].price!;
+          log("rasxod: $rasxod");
         }
       }
     }

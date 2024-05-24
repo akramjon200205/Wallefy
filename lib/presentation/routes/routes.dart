@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wallefy/presentation/pages/add_data.dart';
+import 'package:wallefy/presentation/pages/category.dart';
 import 'package:wallefy/presentation/pages/edit_data.dart';
 import 'package:wallefy/presentation/pages/settings.dart';
 import 'package:wallefy/presentation/pages/view_page.dart';
@@ -9,6 +10,7 @@ class Routes {
   static const addDataPage = '/addDataPage';
   static const editData = '/editData';
   static const settings = '/settings';
+  static const category = '/category';
 
   static Route<dynamic> generateRoute(RouteSettings routeSettings) {
     try {
@@ -39,6 +41,11 @@ class Routes {
           return MaterialPageRoute(
             settings: routeSettings,
             builder: (_) => const SettingsPage(),
+          );
+        case category:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => const CategoryPage(),
           );
         default:
           return MaterialPageRoute(

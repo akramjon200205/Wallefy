@@ -7,7 +7,7 @@ import 'package:wallefy/presentation/pages/history.dart';
 import 'package:wallefy/presentation/widgets/table_widget.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -26,27 +26,27 @@ class _HomePageState extends State<HomePage>
 
     final curvedAnimation =
         CurvedAnimation(curve: Curves.easeInOut, parent: _animationController!);
-    _animation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
-
+    _animation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);  
     super.initState();
   }
 
-  // getAllUserDetails() async {
-  //   var users = await _userService.readAllData();
-  //   _userList = <IncomeExpensesModel>[];
-  //   users.forEach((user) {
-  //     setState(() {
-  //       var userModel = IncomeExpensesModel();
-  //       userModel.id = user['id'];
-  //       userModel.desc = user['desc'];
-  //       userModel.price = user['price'];
-  //       _userList.add(userModel);
-  //     });
-  //   });
-  // }
+  getAllUserDetails() async {
+    var users = await _userService.readAllData();
+    _userList = <IncomeExpensesModel>[];
+    users.forEach((user) {
+      setState(() {
+        var userModel = IncomeExpensesModel();
+        userModel.id = user['id'];
+        userModel.desc = user['desc'];
+        userModel.price = user['price'];
+        _userList.add(userModel);
+      });
+    });
+  }
 
   Animation<double>? _animation;
   AnimationController? _animationController;
+
   @override
   void dispose() {
     _animationController!.dispose();
@@ -67,20 +67,30 @@ class _HomePageState extends State<HomePage>
         title: const Text("Wallefy"),
         actions: [
           IconButton(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => const HistoryPage()));
-              },
-              icon: const Icon(Icons.history))
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (_) => const HistoryPage()));
+              // if (result != null && result == true) {
+              //   getAllUserDetails(); // Qaytib kelgandan keyin ma'lumotlarni yangilash
+              // }
+            },
+            icon: const Icon(
+              Icons.history,
+            ),
+          ),
         ],
       ),
       body: ListView(
-        children: const [
-          TableWidget(),
+        children: [
+          TableWidget(
+              // sortedDataList: _userList,
+              ),
         ],
       ),
       floatingActionButton: FloatActionButton(
-          animationController: _animationController, animation: _animation),
+        animationController: _animationController,
+        animation: _animation,
+      ),
     );
   }
 }

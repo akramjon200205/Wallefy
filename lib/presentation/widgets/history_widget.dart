@@ -43,7 +43,7 @@ class _HistoryWidgetState extends State<HistoryWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                widget.sortedDataList.first.datatime!,
+                widget.sortedDataList.first.datatime ?? '',
                 style: AppTextStyles.body20wB,
               ),
               sum > 0
@@ -72,7 +72,7 @@ class _HistoryWidgetState extends State<HistoryWidget> {
                 key: ValueKey(widget.sortedDataList[index]),
                 endActionPane: ActionPane(
                   motion: const ScrollMotion(),
-                  children: [ 
+                  children: [
                     SlidableAction(
                       // An action can be bigger than the others.
                       flex: 2,

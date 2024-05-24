@@ -28,7 +28,7 @@ class DatabaseConnection {
 
   Future<void> _createCategory(Database database, int version) async {
     String sql =
-        "CREATE TABLE mycategory(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL , desc TEXT NOT NULL, datatime TEXT NOT NULL,)";
+        "CREATE TABLE myctg(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL , desc TEXT NOT NULL, datatime TEXT NOT NULL,)";
     await database.execute(sql);
   }
 }

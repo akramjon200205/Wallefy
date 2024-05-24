@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:wallefy/config/constants/app_text_styles.dart';
+import 'package:wallefy/presentation/routes/routes.dart';
 import 'package:wallefy/presentation/widgets/custom_card.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -35,8 +36,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 children: [
                   const CircleAvatar(
                     radius: 50,
-                    backgroundImage:
-                        AssetImage('assets/images/defAvatar.jpg'),
+                    backgroundImage: AssetImage('assets/images/defAvatar.jpg'),
                   ),
                   const SizedBox(width: 20),
                   Column(
@@ -51,11 +51,34 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ]),
           ),
-          const CustomCard(child: Text('Premium - versiya')),
-          const CustomCard(child: Text('Qarzlar')),
-          const CustomCard(child: Text('Kategoriya')),
-          const CustomCard(child: Text('Eksport')),
-          const CustomCard(child: Text('Asosiy valyuta')),
+          CustomCard(
+            child: const Text(
+              'Premium - versiya',
+            ),
+          ),
+          CustomCard(
+            child: const Text(
+              'Qarzlar',
+            ),
+          ),
+          CustomCard(
+            function: () {
+              Navigator.of(context).pushNamed(Routes.category);
+            },
+            child: const Text(
+              'Kategoriya',
+            ),
+          ),
+          CustomCard(
+            child: const Text(
+              'Eksport',
+            ),
+          ),
+          CustomCard(
+            child: const Text(
+              'Asosiy valyuta',
+            ),
+          ),
         ],
       ),
     );
