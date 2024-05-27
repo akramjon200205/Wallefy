@@ -13,6 +13,7 @@ class AppColors {
   static Color lastAction = const Color(0xFF4E505F);
   static Color black = const Color(0xff000000);
   static Color white = const Color(0xffffffff);
+  static Color yellow = const Color(0xFF7BC043);
   // static Color buttons3night = const Color(0xFF4E505F);
   // static Color buttons3day = const Color(0xFFD2D3DA);
 

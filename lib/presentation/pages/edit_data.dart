@@ -1,13 +1,16 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:wallefy/config/constants/app_colors.dart';
 import 'package:wallefy/config/constants/app_text_styles.dart';
 import 'package:wallefy/config/constants/constants.dart';
+import 'package:wallefy/data/models/category_model.dart';
 import 'package:wallefy/data/models/income_expenses_model.dart';
 import 'package:wallefy/data/services/incomeService.dart';
 
 class EditData extends StatefulWidget {
   final IncomeExpensesModel user;
-  const EditData({Key? key, required this.user}) : super(key: key);
+  const EditData({super.key, required this.user});
 
   @override
   State<EditData> createState() => _EditDataState();
@@ -22,6 +25,16 @@ class _EditDataState extends State<EditData> {
   final _userService = IncomeService();
   String typeExcenses = '';
 
+  List<CategoryModel> categoryList = [];
+
+  getAllCategoryDetails() async {
+    categoryList = await _userService.readAllCategories();
+    // for (var element in categoryList) {
+    //   log("${element.name}");
+    // }
+    setState(() {});
+  }
+
   @override
   void initState() {
     setState(() {
@@ -29,6 +42,7 @@ class _EditDataState extends State<EditData> {
       _priceController.text = ((widget.user.price).toString());
       typeExcenses = widget.user.type ?? '';
     });
+    getAllCategoryDetails();
     super.initState();
   }
 
@@ -78,7 +92,7 @@ class _EditDataState extends State<EditData> {
                   bottomSheet(context);
                 },
                 child: Container(
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                     border: Border.all(color: Colors.teal),
@@ -98,7 +112,7 @@ class _EditDataState extends State<EditData> {
                             .copyWith(color: AppColors.red),
                       ),
                     )
-                  : Text(''),
+                  : const Text(''),
               const SizedBox(
                 height: 20.0,
               ),
@@ -106,9 +120,12 @@ class _EditDataState extends State<EditData> {
                 children: [
                   TextButton(
                       style: TextButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: Colors.teal,
-                          textStyle: const TextStyle(fontSize: 15)),
+                        foregroundColor: Colors.white,
+                        backgroundColor: Colors.teal,
+                        textStyle: const TextStyle(
+                          fontSize: 15,
+                        ),
+                      ),
                       onPressed: () async {
                         setState(() {
                           _descController.text.isEmpty
@@ -133,10 +150,13 @@ class _EditDataState extends State<EditData> {
                             price: double.parse(_priceController.text),
                           );
                           await _userService.updateData(user);
-                          // ignore: use_build_context_synchronously
                           Constants.showSuccessSnackBar(
-                              'Данные успешно добавлены', context);
+                            'Данные успешно добавлены',
+                            // ignore: use_build_context_synchronously
+                            context,
+                          );
 
+                          // ignore: use_build_context_synchronously
                           Navigator.pop(context);
                         }
                       },
@@ -177,17 +197,21 @@ class _EditDataState extends State<EditData> {
           child: ListView.separated(
             shrinkWrap: true,
             padding: const EdgeInsets.symmetric(vertical: 10),
-            itemCount: typeExcensesList.length,
+            itemCount: categoryList.length,
             separatorBuilder: (context, index) => const Divider(),
             itemBuilder: (_, index) => Center(
-                child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        typeExcenses = typeExcensesList[index];
-                      });
-                      Navigator.pop(context);
-                    },
-                    child: Text(typeExcensesList[index]))),
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    typeExcenses = categoryList[index].name ?? '';
+                  });
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  categoryList[index].name ?? '',
+                ),
+              ),
+            ),
           ),
         );
       },

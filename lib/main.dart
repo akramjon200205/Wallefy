@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:wallefy/data/data_providers/database_connection.dart';
 import 'package:wallefy/presentation/routes/routes.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await DatabaseConnection().init();
   runApp(const MyApp());
 }
 

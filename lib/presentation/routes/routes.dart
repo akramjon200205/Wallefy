@@ -4,6 +4,7 @@ import 'package:wallefy/presentation/pages/category.dart';
 import 'package:wallefy/presentation/pages/edit_data.dart';
 import 'package:wallefy/presentation/pages/settings.dart';
 import 'package:wallefy/presentation/pages/view_page.dart';
+import 'package:wallefy/presentation/widgets/add_edit_category_page.dart';
 
 class Routes {
   static const viewPage = '/';
@@ -11,6 +12,7 @@ class Routes {
   static const editData = '/editData';
   static const settings = '/settings';
   static const category = '/category';
+  static const addEditCategoryPage = "/addEditCategoryPage";
 
   static Route<dynamic> generateRoute(RouteSettings routeSettings) {
     try {
@@ -46,6 +48,13 @@ class Routes {
           return MaterialPageRoute(
             settings: routeSettings,
             builder: (_) => const CategoryPage(),
+          );
+        case addEditCategoryPage:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => AddEditCategoryPage(
+              categoryModel: args?['categoryModel'],
+            ),
           );
         default:
           return MaterialPageRoute(

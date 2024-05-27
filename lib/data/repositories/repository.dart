@@ -1,5 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:wallefy/data/data_providers/database_connection.dart';
+import 'package:wallefy/data/models/category_model.dart';
 
 class Repository {
   late DatabaseConnection _databaseConnection;
@@ -44,9 +45,18 @@ class Repository {
   }
 
   // Read All Category
+  // readCategory(table) async {
+  //   var connection = await categorydatabase;
+
+  //   return await connection?.query(table);
+  // }
+
+  // Read All Category
   readCategory(table) async {
-    var connection = await categorydatabase;
-    return await connection?.query(table);
+    var connection = await database;
+    final result =  await connection?.query(table);
+    final list = result?.map((e) => CategoryModel.fromMap(e)).toList() ?? [];
+    return list;
   }
 
   //Read a Single Record By ID

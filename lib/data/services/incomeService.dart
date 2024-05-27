@@ -24,8 +24,8 @@ class IncomeService {
 
   //Read All CAtegories
   readAllCategories() async {
-    return await _repository.readData('myctg');
-  }
+    return await _repository.readCategory('myctg');
+  }   
 
   //Edit User
   updateData(IncomeExpensesModel user) async {
