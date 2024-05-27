@@ -82,13 +82,11 @@ class _HistoryWidgetState extends State<HistoryWidget> {
                             arguments: {
                               'user': widget.sortedDataList[index]
                             }).then((data) {
-                          if (data != null) {
-                            setState(() {});
-                            Constants.showSuccessSnackBar(
-                              'User Detail Updated Success',
-                              context,
-                            );
-                          }
+                          Constants.showSuccessSnackBar(
+                            'User Detail Updated Success',
+                            context,
+                          );
+                          setState(() {});
                         });
                       },
                       backgroundColor: const Color(0xFF7BC043),
@@ -100,9 +98,8 @@ class _HistoryWidgetState extends State<HistoryWidget> {
                       onPressed: (BuildContext context) {
                         _incomeService
                             .deleteData(widget.sortedDataList[index].id);
-                        setState(() {
-                          widget.sortedDataList.removeAt(index);
-                        });
+                        widget.sortedDataList.removeAt(index);
+                        Navigator.pop(context);                        
                       },
                       backgroundColor: const Color(0xFFFE4A49),
                       foregroundColor: Colors.white,

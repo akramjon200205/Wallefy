@@ -10,7 +10,7 @@ class CategoryModel {
   CategoryModel.fromMap(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
-    dateTime = json['datatime'];
+    dateTime =  json['datatime'];
   }
 
   Map<String, dynamic> toMap() {

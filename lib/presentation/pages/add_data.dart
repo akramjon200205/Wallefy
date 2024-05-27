@@ -1,8 +1,13 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:wallefy/config/constants/app_colors.dart';
 import 'package:wallefy/config/constants/constants.dart';
+import 'package:wallefy/config/db_helper.dart';
+import 'package:wallefy/data/models/category_model.dart';
 import 'package:wallefy/data/models/income_expenses_model.dart';
+import 'package:wallefy/data/repositories/repository.dart';
 import 'package:wallefy/data/services/incomeService.dart';
 
 import '../../config/constants/app_text_styles.dart';
@@ -23,6 +28,23 @@ class _AddDataState extends State<AddData> {
   final _userService = IncomeService();
   String typeExcenses = 'Kategoriyani tanlang';
 
+  final service = IncomeService();
+  List<CategoryModel> categoryList = [];
+
+  getAllUserDetails() async {
+    categoryList = await service.readAllCategories();
+    // for (var element in categoryList) {
+    //   log("${element.name}");
+    // }
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    getAllUserDetails();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,11 +52,11 @@ class _AddDataState extends State<AddData> {
         title: widget.isTrue
             ? Text(
                 'Yangi kirim',
-                style: AppTextStyles.body22w5.copyWith(color: AppColors.white),
+                style: AppTextStyles.body22w5.copyWith(color: AppColors.black),
               )
             : Text(
                 'Yangi chiqim',
-                style: AppTextStyles.body22w5.copyWith(color: AppColors.white),
+                style: AppTextStyles.body22w5.copyWith(color: AppColors.black),
               ),
       ),
       body: SingleChildScrollView(
@@ -57,16 +79,17 @@ class _AddDataState extends State<AddData> {
                 height: 20.0,
               ),
               TextField(
-                  keyboardType: TextInputType.number,
-                  controller: _priceController,
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    hintText: 'Summani kiriting',
-                    labelText: 'Miqdor',
-                    errorText: _validateContact
-                        ? "'Miqdor' maydoni bo'sh bo'lmasligi kerak"
-                        : null,
-                  )),
+                keyboardType: TextInputType.number,
+                controller: _priceController,
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  hintText: 'Summani kiriting',
+                  labelText: 'Miqdor',
+                  errorText: _validateContact
+                      ? "'Miqdor' maydoni bo'sh bo'lmasligi kerak"
+                      : null,
+                ),
+              ),
               const SizedBox(
                 height: 20.0,
               ),
@@ -102,60 +125,66 @@ class _AddDataState extends State<AddData> {
               Row(
                 children: [
                   TextButton(
-                      style: TextButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: Colors.teal,
-                          textStyle: const TextStyle(fontSize: 15)),
-                      onPressed: () async {
-                        setState(() {
-                          _descController.text.isEmpty
-                              ? _validateName = true
-                              : _validateName = false;
-                          _priceController.text.isEmpty
-                              ? _validateContact = true
-                              : _validateContact = false;
-                          typeExcenses == 'Kategoriyani tanlang'
-                              ? _validateType = true
-                              : _validateType = false;
-                        });
-                        if (_validateName == false &&
-                            _validateContact == false &&
-                            typeExcenses != 'Kategoriyani tanlang') {
-                          // print("Good Data Can Save");
-                          var now = DateTime.now();
-                          final DateFormat formatter = DateFormat('yyyy-MM-dd');
-                          final String date = formatter.format(now);
-                          await _userService.saveData(
-                            IncomeExpensesModel(
-                                type: typeExcenses,
-                                desc: _descController.text,
-                                price: double.parse(_priceController.text),
-                                datatime: monthReturned(date),
-                                isincome: widget.isTrue == true ? 1 : 0),
-                          );
+                    style: TextButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: Colors.teal,
+                        textStyle: const TextStyle(fontSize: 15)),
+                    onPressed: () async {
+                      setState(() {
+                        _descController.text.isEmpty
+                            ? _validateName = true
+                            : _validateName = false;
+                        _priceController.text.isEmpty
+                            ? _validateContact = true
+                            : _validateContact = false;
+                        typeExcenses == 'Kategoriyani tanlang'
+                            ? _validateType = true
+                            : _validateType = false;
+                      });
+                      if (_validateName == false &&
+                          _validateContact == false &&
+                          typeExcenses != 'Kategoriyani tanlang') {
+                        // print("Good Data Can Save");
+                        var now = DateTime.now();
+                        final DateFormat formatter = DateFormat('yyyy-MM-dd');
+                        final String date = formatter.format(now);
+                        await _userService.saveData(
+                          IncomeExpensesModel(
+                              type: typeExcenses,
+                              desc: _descController.text,
+                              price: double.parse(_priceController.text),
+                              datatime: monthReturned(date),
+                              isincome: widget.isTrue == true ? 1 : 0),
+                        );
+                        // ignore: use_build_context_synchronously
+                        Constants.showSuccessSnackBar(
                           // ignore: use_build_context_synchronously
-                          Constants.showSuccessSnackBar(
-                              'Данные успешно добавлены', context);
+                          'Данные успешно добавлены', context,
+                        );
 
-                          Navigator.pop(context);
-                        }
-                      },
-                      child: const Text("Qo'shish")),
+                        // ignore: use_build_context_synchronously
+                        Navigator.pop(context);
+                      }
+                    },
+                    child: const Text("Qo'shish"),
+                  ),
                   const SizedBox(
                     width: 10.0,
                   ),
                   TextButton(
-                      style: TextButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: Colors.red,
-                          textStyle: const TextStyle(fontSize: 15)),
-                      onPressed: () {
-                        _descController.text = '';
-                        _priceController.text = '';
-                      },
-                      child: const Text('Tozalash')),
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.red,
+                      textStyle: const TextStyle(fontSize: 15),
+                    ),
+                    onPressed: () {
+                      _descController.text = '';
+                      _priceController.text = '';
+                    },
+                    child: const Text('Tozalash'),
+                  ),
                 ],
-              )
+              ),
             ],
           ),
         ),
@@ -171,25 +200,28 @@ class _AddDataState extends State<AddData> {
         borderRadius: BorderRadius.circular(10.0),
       ),
       builder: (BuildContext context) {
-        return SizedBox(
-          height: 200,
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.4,
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           child: ListView.separated(
             shrinkWrap: true,
             padding: const EdgeInsets.symmetric(vertical: 10),
-            itemCount: typeExcensesList.length,
+            itemCount: categoryList.length,
             separatorBuilder: (context, index) => const Divider(),
             itemBuilder: (_, index) => Center(
               child: InkWell(
                 onTap: () {
                   setState(() {
-                    typeExcenses = typeExcensesList[index];
+                    typeExcenses = categoryList[index].name ?? '';
                   });
                   Navigator.pop(context);
                 },
                 child: Container(
                   height: 30,
                   alignment: Alignment.center,
-                  child: Text(typeExcensesList[index]),
+                  child: Text(
+                    categoryList[index].name ?? '',
+                  ),
                 ),
               ),
             ),

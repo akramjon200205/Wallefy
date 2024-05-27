@@ -19,12 +19,12 @@ class _HistoryPageState extends State<HistoryPage> {
     List<List<IncomeExpensesModel>> filteredDataList = [];
     List allData = await _userService.readAllData();
     _dataList = <IncomeExpensesModel>[];
-    allData.forEach((data) {
+    for (var data in allData) {
       setState(() {
         final dataModel = IncomeExpensesModel.fromJson(data);
         _dataList.add(dataModel);
       });
-    });
+    }
 
     List<IncomeExpensesModel> newData = [..._dataList];
 
