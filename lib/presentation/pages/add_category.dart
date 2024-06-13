@@ -1,33 +1,26 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:wallefy/config/constants/app_colors.dart';
 import 'package:wallefy/config/constants/app_text_styles.dart';
 import 'package:wallefy/config/constants/constants.dart';
 import 'package:wallefy/data/models/category_model.dart';
 import 'package:wallefy/data/services/incomeService.dart';
 
-// ignore: must_be_immutable
-class AddEditCategoryPage extends StatefulWidget {
-  CategoryModel categoryModel;
-  AddEditCategoryPage({
-    super.key,
-    required this.categoryModel,
-  });
+class AddCategoryPage extends StatefulWidget {
+  const AddCategoryPage({super.key});
 
   @override
-  State<AddEditCategoryPage> createState() => _AddEditCategoryPageState();
+  State<AddCategoryPage> createState() => _AddCategoryPageState();
 }
 
-class _AddEditCategoryPageState extends State<AddEditCategoryPage> {
+class _AddCategoryPageState extends State<AddCategoryPage> {
   TextEditingController categoryController = TextEditingController();
   IncomeService service = IncomeService();
   bool _validateName = false;
 
   @override
   void initState() {
-    setState(() {
-      categoryController.text = widget.categoryModel.name ?? '';
-    });
     super.initState();
   }
 
@@ -35,6 +28,12 @@ class _AddEditCategoryPageState extends State<AddEditCategoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text(
+          "Kategoriya qo'shish",
+          style: AppTextStyles.body20w5.copyWith(
+            color: AppColors.black,
+          ),
+        ),
         leading: InkWell(
           onTap: () {
             Navigator.of(context).pop();
@@ -45,19 +44,14 @@ class _AddEditCategoryPageState extends State<AddEditCategoryPage> {
             color: AppColors.black,
           ),
         ),
-        title: Text(
-          "Kategoriyani tahrirlash",
-          style: AppTextStyles.body20w5.copyWith(
-            color: AppColors.black,
-          ),
-        ),
-        centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            const SizedBox(
+              height: 30,
+            ),
             TextField(
               controller: categoryController,
               style: AppTextStyles.body16w4.copyWith(color: AppColors.black),
@@ -70,7 +64,7 @@ class _AddEditCategoryPageState extends State<AddEditCategoryPage> {
                   ),
                 ),
                 errorText: _validateName
-                    ? "Kategoriya maydoni bo'sh bo'lmasligi kerak"
+                    ? "'Kategoriyalar maydoni bo'sh bo'lmasligi kerak"
                     : null,
                 hintText: "Yangi Kategoriya kiriting",
                 hintStyle: AppTextStyles.body16w4.copyWith(
@@ -96,23 +90,23 @@ class _AddEditCategoryPageState extends State<AddEditCategoryPage> {
                       });
                       if (_validateName == false) {
                         // print("Good Data Can Save");
-                        var user = CategoryModel(
-                          id: widget.categoryModel.id,
-                          dateTime: DateTime.now().toString(),
+                        var now = DateTime.now();
+                        final DateFormat formatter = DateFormat('yyyy-MM-dd');
+                        final String date = formatter.format(now);
+                        await service.saveCategory(CategoryModel(
+                          dateTime: date,
                           name: categoryController.text,
-                        );
-                        await service.updateCategory(user);
+                        ));
                         Constants.showSuccessSnackBar(
                           'Данные успешно добавлены',
                           // ignore: use_build_context_synchronously
                           context,
                         );
-
                         // ignore: use_build_context_synchronously
                         Navigator.pop(context);
                       }
                     },
-                    child: const Text('Yangilash')),
+                    child: const Text("Qo'shish")),
                 const SizedBox(
                   width: 10.0,
                 ),

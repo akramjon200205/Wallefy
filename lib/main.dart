@@ -18,14 +18,12 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.teal,
+        appBarTheme: const AppBarTheme(
+          centerTitle: true,
+          elevation: 0,
+        ),
       ),
       onGenerateRoute: (settings) => Routes.generateRoute(settings),
     );
   }
 }
-
-/**
- * 
- * 
- * 
- */

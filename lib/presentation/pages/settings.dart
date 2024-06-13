@@ -26,30 +26,34 @@ class _SettingsPageState extends State<SettingsPage> {
           },
         ),
         title: const Text('Sozlamalar'),
+        centerTitle: true,
       ),
       body: ListView(
         children: [
           CustomCard(
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Row(
-                children: [
-                  const CircleAvatar(
-                    radius: 50,
-                    backgroundImage: AssetImage('assets/images/defAvatar.jpg'),
-                  ),
-                  const SizedBox(width: 20),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Akramjon', style: AppTextStyles.body20w5),
-                      const SizedBox(height: 20),
-                      Text('Usmonov', style: AppTextStyles.body20w5),
-                    ],
-                  ),
-                ],
-              ),
-            ]),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    const CircleAvatar(
+                      radius: 50,
+                      backgroundImage:
+                          AssetImage('assets/images/defAvatar.jpg'),
+                    ),
+                    const SizedBox(width: 20),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Akramjon', style: AppTextStyles.body20w5),
+                        const SizedBox(height: 20),
+                        Text('Usmonov', style: AppTextStyles.body20w5),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
           CustomCard(
             child: const Text(

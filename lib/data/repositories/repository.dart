@@ -45,13 +45,6 @@ class Repository {
   }
 
   // Read All Category
-  // readCategory(table) async {
-  //   var connection = await categorydatabase;
-
-  //   return await connection?.query(table);
-  // }
-
-  // Read All Category
   readCategory(table) async {
     var connection = await database;
     final result =  await connection?.query(table);

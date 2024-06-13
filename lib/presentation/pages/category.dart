@@ -50,6 +50,46 @@ class _CategoryPageState extends State<CategoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          InkWell(
+            onTap: () async {
+              await Navigator.of(context)
+                  .pushNamed(Routes.addCategoryPage)
+                  .then(
+                    (value) => getAllUserDetails(),
+                  );
+            },
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10,
+                // vertical: 5,
+              ),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: AppColors.black,
+                  width: 1,
+                ),
+                color: AppColors.yellow,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "+ Add",
+                    style: AppTextStyles.body18w4.copyWith(
+                      color: AppColors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(
+            width: 20,
+          ),
+        ],
         elevation: 0,
         leading: InkWell(
           onTap: () {
@@ -71,6 +111,8 @@ class _CategoryPageState extends State<CategoryPage> {
       ),
       body: ListView.separated(
         physics: const BouncingScrollPhysics(),
+        padding: const EdgeInsets.symmetric(horizontal: 10)
+            .copyWith(top: 20, bottom: 30),
         itemBuilder: (context, index) {
           return Slidable(
             useTextDirection: true,

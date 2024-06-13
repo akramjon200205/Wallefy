@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:wallefy/config/constants/app_colors.dart';
 import 'package:wallefy/data/models/income_expenses_model.dart';
 import 'package:wallefy/data/services/incomeService.dart';
 import 'package:wallefy/presentation/widgets/history_widget.dart';
@@ -49,7 +51,17 @@ class _HistoryPageState extends State<HistoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Hikoya"),
+        title: const Text("Tarix"),
+        leading: InkWell(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Icon(
+            CupertinoIcons.back,
+            size: 28,
+            color: AppColors.black,
+          ),
+        ),
       ),
       body: ListView.builder(
         shrinkWrap: true,

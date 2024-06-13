@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:wallefy/presentation/pages/add_category.dart';
 import 'package:wallefy/presentation/pages/add_data.dart';
 import 'package:wallefy/presentation/pages/category.dart';
 import 'package:wallefy/presentation/pages/edit_data.dart';
+import 'package:wallefy/presentation/pages/login.dart';
 import 'package:wallefy/presentation/pages/settings.dart';
+import 'package:wallefy/presentation/pages/user_info_enter.dart';
 import 'package:wallefy/presentation/pages/view_page.dart';
 import 'package:wallefy/presentation/widgets/add_edit_category_page.dart';
 
 class Routes {
-  static const viewPage = '/';
+  static const viewPage = '/viewPage';
+  static const userInfoEnter = '/userInfoEnter';
+  static const login = '/';
+
   static const addDataPage = '/addDataPage';
   static const editData = '/editData';
   static const settings = '/settings';
   static const category = '/category';
   static const addEditCategoryPage = "/addEditCategoryPage";
+  static const addCategoryPage = "/addCategoryPage";
 
   static Route<dynamic> generateRoute(RouteSettings routeSettings) {
     try {
@@ -20,6 +27,16 @@ class Routes {
           routeSettings.arguments as Map<String, dynamic>?;
       args ?? <String, dynamic>{};
       switch (routeSettings.name) {
+        case login:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => const Login(),
+          );
+        case userInfoEnter:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => const UserInfoEnter(),
+          );
         case viewPage:
           return MaterialPageRoute(
             settings: routeSettings,
@@ -55,6 +72,11 @@ class Routes {
             builder: (_) => AddEditCategoryPage(
               categoryModel: args?['categoryModel'],
             ),
+          );
+        case addCategoryPage:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => const AddCategoryPage(),
           );
         default:
           return MaterialPageRoute(
