@@ -1,10 +1,11 @@
-
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart'; // Import qilindi
 import 'package:wallefy/config/constants/app_colors.dart';
 import 'package:wallefy/config/constants/app_text_styles.dart';
 import 'package:wallefy/data/models/income_expenses_model.dart';
 
-class TableWidget extends StatelessWidget {
+class TableWidget extends StatefulWidget {
   const TableWidget({
     super.key,
     required this.models,
@@ -13,16 +14,55 @@ class TableWidget extends StatelessWidget {
   final List<IncomeExpensesModel> models;
 
   @override
+  State<TableWidget> createState() => _TableWidgetState();
+}
+
+class _TableWidgetState extends State<TableWidget> {
+  String selectedValute = '';
+
+  void _loadSelectedValute() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      setState(() {
+        selectedValute = prefs.getString('selectedValute') ?? 'uzb';
+      });
+    } catch (e) {
+      debugPrint('Error loading selected valute: $e');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSelectedValute();
+  }
+
+  String formatCurrency(double amount) {
+    final formatter = NumberFormat('#,##0.000', 'en_US');
+    return formatter.format(amount);
+  }
+
+  @override
   Widget build(BuildContext context) {
     double sum = 0;
     double rasxod = 0;
     double doxod = 0;
 
-    for (int i = 0; i < models.length; i++) {
-      if (models[i].isincome == 1) {
-        doxod += models[i].price!;
-      } else {
-        rasxod += models[i].price!;
+    for (int i = 0; i < widget.models.length; i++) {
+      if (selectedValute == 'uzb') {
+        if (widget.models[i].isincome == 1) {
+          doxod += widget.models[i].price!;
+        } else {
+          rasxod += widget.models[i].price!;
+        }
+      } else if (selectedValute == 'usa') {
+        if (widget.models[i].isincome == 1) {
+          doxod += widget.models[i].price!;
+          doxod *= 0.000079;
+        } else {
+          rasxod += widget.models[i].price!;
+          rasxod *= 0.000079;
+        }
       }
     }
     sum = doxod - rasxod;
@@ -71,12 +111,16 @@ class TableWidget extends StatelessWidget {
                       const SizedBox(height: 10),
                       sum > 0
                           ? Text(
-                              '+$sum UZS',
+                              selectedValute == 'uzb'
+                                  ? '+${formatCurrency(sum)} UZS'
+                                  : "+${formatCurrency(sum)} USD",
                               style: AppTextStyles.body18w4
                                   .copyWith(color: AppColors.white),
                             )
                           : Text(
-                              '$sum UZS',
+                              selectedValute == 'uzb'
+                                  ? '${formatCurrency(sum)} UZS'
+                                  : "${formatCurrency(sum)} USD",
                               style: AppTextStyles.body18w4
                                   .copyWith(color: AppColors.white),
                             )
@@ -95,7 +139,9 @@ class TableWidget extends StatelessWidget {
                           ),
                           const SizedBox(height: 5),
                           Text(
-                            '+$doxod UZS',
+                            selectedValute == 'uzb'
+                                ? '+${formatCurrency(doxod)} UZS'
+                                : "+${formatCurrency(doxod)} USD",
                             style: AppTextStyles.body18w3
                                 .copyWith(color: AppColors.white),
                           ),
@@ -111,7 +157,9 @@ class TableWidget extends StatelessWidget {
                           ),
                           const SizedBox(height: 5),
                           Text(
-                            '-$rasxod UZS',
+                            selectedValute == 'uzb'
+                                ? '-${formatCurrency(rasxod)} UZS'
+                                : "-${formatCurrency(rasxod)} USD",
                             style: AppTextStyles.body18w3
                                 .copyWith(color: AppColors.white),
                           ),

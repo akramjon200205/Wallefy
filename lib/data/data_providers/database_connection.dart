@@ -62,6 +62,4 @@ class DatabaseConnection {
         "CREATE TABLE myctg(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL , datatime TEXT NOT NULL,)";
     await database.execute(sql);
   }
-
- 
 }

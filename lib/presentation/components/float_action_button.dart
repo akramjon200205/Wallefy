@@ -45,7 +45,7 @@ class _FloatActionButtonState extends State<FloatActionButton> {
   Widget build(BuildContext context) {
     return FloatingActionBubble(
       items: List.generate(
-        2,
+        3,
         (index) => Bubble(
           title: floatListNames[index],
           iconColor: Colors.white,

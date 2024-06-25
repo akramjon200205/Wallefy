@@ -4,16 +4,19 @@ import 'package:wallefy/presentation/pages/add_data.dart';
 import 'package:wallefy/presentation/pages/category.dart';
 import 'package:wallefy/presentation/pages/edit_data.dart';
 import 'package:wallefy/presentation/pages/login.dart';
+import 'package:wallefy/presentation/pages/mobile_scanner_widget.dart';
 import 'package:wallefy/presentation/pages/settings.dart';
 import 'package:wallefy/presentation/pages/user_info_enter.dart';
+import 'package:wallefy/presentation/pages/valute.dart';
 import 'package:wallefy/presentation/pages/view_page.dart';
 import 'package:wallefy/presentation/widgets/add_edit_category_page.dart';
 
 class Routes {
-  static const viewPage = '/viewPage';
+  static const viewPage = '/';
   static const userInfoEnter = '/userInfoEnter';
-  static const login = '/';
-
+  static const login = '/login';
+  static const valute = '/valute';
+  static const scannerWidget = '/scannerWidget';
   static const addDataPage = '/addDataPage';
   static const editData = '/editData';
   static const settings = '/settings';
@@ -48,6 +51,16 @@ class Routes {
             builder: (_) => AddData(
               isTrue: args?['isTrue'],
             ),
+          );
+        case valute:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => const ValutePage(),
+          );
+        case scannerWidget:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => const ScanerWidget(),
           );
         case editData:
           return MaterialPageRoute(

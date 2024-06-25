@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "121753889625",
+    "project_id": "wallefy-d6e94",
+    "storage_bucket": "wallefy-d6e94.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:121753889625:android:1447ffce45856555c73a48",
+        "android_client_info": {
+          "package_name": "com.example.wallefy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRflrCX6FnDm5z84RsbdQJGLU1Cc7WhZc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

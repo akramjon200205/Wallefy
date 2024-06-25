@@ -79,6 +79,9 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
           CustomCard(
+            function: () {
+              Navigator.of(context).pushNamed(Routes.valute);
+            },
             child: const Text(
               'Asosiy valyuta',
             ),

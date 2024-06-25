@@ -34,22 +34,12 @@ class _LoginState extends State<Login> {
             const SizedBox(
               height: 30,
             ),
-            TextField(
+            CustomTextField(
               controller: emailController,
               style: AppTextStyles.body20w4.copyWith(color: AppColors.black),
-              decoration: InputDecoration(
-                isDense: true,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(
-                    color: AppColors.yellow,
-                    width: 3,
-                  ),
-                ),
-                hintText: "Email",
-                hintStyle:
-                    AppTextStyles.body20w4.copyWith(color: AppColors.black),
-              ),
+              hintText: "Email",
+              hintStyle:
+                  AppTextStyles.body20w4.copyWith(color: AppColors.black),
             ),
             const SizedBox(
               height: 20,

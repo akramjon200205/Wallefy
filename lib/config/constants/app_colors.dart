@@ -20,7 +20,15 @@ class AppColors {
   // static LinearGradient products = LinearGradient(
   //     begin: const Alignment(1, 2),
   //     colors: [Colors.white, Colors.blue.withOpacity(0.8)]);
-
+ static LinearGradient gradient = const LinearGradient(
+      begin: Alignment.bottomLeft,
+      end: Alignment.topRight,
+      colors: [
+        Color(0xff0C9AFE),
+        Color(0xff10CFFF),
+        Color(0xff0FC8FF),
+        Color(0xff0668B3)
+      ]);
   // static PrimaryColor primaryLight = const PrimaryColor(
   //   0xFF16A249,
   //   <int, Color>{

@@ -107,6 +107,11 @@ class _HomePageState extends State<HomePage>
             ).then((data) {
               getAllUserDetails();
             });
+          },
+          () {
+            Navigator.pushNamed(context, Routes.scannerWidget).then(
+              (value) => getAllUserDetails(),
+            );
           }
         ],
       ),

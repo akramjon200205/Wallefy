@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wallefy/config/constants/assets.dart';
 import 'package:wallefy/presentation/pages/home.dart';
 import 'package:wallefy/presentation/pages/settings.dart';
 
@@ -7,10 +8,11 @@ List<Icon> menuIcons = [
   const Icon(Icons.home_outlined),
   const Icon(Icons.history_outlined)
 ];
-List floatListNames = ["Yangi daromad", "Yangi harajat"];
+List floatListNames = ["Yangi daromad", "Yangi harajat", "QR Code"];
 List floatListIcons = [
   Icons.add_circle_outline_sharp,
-  Icons.remove_circle_outline_outlined
+  Icons.remove_circle_outline_outlined,
+  Icons.qr_code_2_outlined,
 ];
 
 TextStyle kTextstyle(
